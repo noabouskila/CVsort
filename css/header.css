@@ -1,0 +1,30 @@
+
+#burger-menu{
+    cursor : pointer ;
+}
+#close-menu{
+    display: none;
+}
+
+#navigation {
+    display: none;
+    
+}
+  
+#navigation.show {
+    display: block;
+    position: relative;
+    top: 11%;
+    right: 0%;
+    text-align: center;
+    background: white;
+    z-index: 9999;
+    width: 100%;
+    margin: 20% auto;
+    height: 800px;
+    line-height : 60px;
+    /* transform: translateX(100%);  */
+    /* transition: transform 0.3s ease-in-out;  */
+}
+
+

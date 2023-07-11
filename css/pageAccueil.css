@@ -1,0 +1,26 @@
+body {
+    /* background : red; */
+}
+.center-button {
+text-align: center;
+}
+h1{
+    font-size : 51px;
+}
+.bg-img{
+    background-image : url("img/bg-test1920.png");
+    background-repeat : no-repeat;
+    background-position : center;
+    background-size: cover;
+    
+}
+.icon-sort{
+    width : 45%; 
+    margin : 0 auto;
+}
+@media screen and (max-width: 789px){
+    .icon-sort{
+        width : 45%; 
+        margin : 0 ;
+    }
+}
