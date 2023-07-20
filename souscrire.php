@@ -1,4 +1,70 @@
-<!-- <?php session_start();
+<?php
+session_start();
+// $_SESSION['utilisateur_id']; 
+// $_SESSION['inscription_complete'];
+
+// VERIFIER SI LUTILISATEUR EST CONNECTE
+// if (!isset($_SESSION['utilisateur_id'])) {
+//     $response = [
+//         'status' => 'error',
+//         'message' => 'Vous devez d\'abord vous connecter.'
+//     ];
+//     echo json_encode($response);
+//     exit;
+// }
+
+// if (!isset($_SESSION['inscription_complete']) || !$_SESSION['inscription_complete']) {
+//     $response = [
+//         'status' => 'error',
+//         'message' => 'Vous devez d\'abord terminer votre inscription.'
+//     ];
+//     echo json_encode($response);
+//     exit;
+// }
+
+
+
+
+// STRIPE
+require_once 'vendor/autoload.php';
+require_once 'secretKeyStripe.php';
+
+\Stripe\Stripe::setApiKey($stripeSecretKey);
+\Stripe\Stripe::setApiVersion('2022-11-15');
+
+function createCheckoutSession($priceId, $successUrl, $cancelUrl)
+{
+    $session = \Stripe\Checkout\Session::create([
+        'payment_method_types' => ['card'],
+        'line_items' => [[
+            'price' => $priceId,
+            'quantity' => 1
+        ]],
+        'mode' => 'subscription',
+        'success_url' => $successUrl,
+        'cancel_url' => $cancelUrl,
+        'billing_address_collection' => 'required',
+        'shipping_address_collection' => ['allowed_countries' => ['FR']]
+        // a ajouter sil le faut metadata et customer
+    ]);
+
+    return $session;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $priceId = $_POST['priceId'];
+    $successUrl = 'http://localhost/cvSortLivrable/successPayement.php';
+    $cancelUrl = 'http://localhost/cvSortLivrable/cancelPayement.php';
+
+    $session = createCheckoutSession($priceId, $successUrl, $cancelUrl);
+
+    header('Content-Type: application/json');
+    header("HTTP/1.1 303 See Other");
+    header("Location: " . $session->url);
+  
+    echo json_encode(['id' => $session->id]);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -7,127 +73,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="css/header.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #34E1DF, #0876D9);
+            overflow-x: hidden;
+        }
+    </style>
 </head>
-<style>
-    body {
-        background: linear-gradient(to right, #34E1DF, #0876D9);
-        overflow-x: hidden;
-    }
-</style>
 <body>
 <div>
-    <?php
-    include "header.php"
-    ?>
+    <?php include "header.php"; ?>
 </div>
-<div>
-    <br>
-    <h1 class="text-center fs-2 text-primary fw-normal">Contactez-nous !</h1>
-    <br>
-    <div class="row justify-content-center">
-        <div class="col-sm-6">
-            <div class="border border-success p-2 mb-2 rounded-4 bg-white position-relative">
-                <img src="img/LOGOCONTACT.png" alt="Logo Contact" style="width: 200px; position: absolute; top: -60px; right: -60px; transform: rotate(30deg);">
-                <div class="p-5">
-                    <h1 class="text fs-3 text-primary fw-normal">Envoyez-nous un message</h1>
-                    <br>
-                    <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-                        <div class="mb-3">
-                            <label for="nom" class="form-label">Nom</label>
-                            <input type="text" class="form-control" id="nom" name="nom" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="prenom" class="form-label">Prénom</label>
-                            <input type="text" class="form-control" id="prenom" name="prenom" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Adresse Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary text">envoyer</button>
-                        </div>
-                        <?php if($_SESSION["msg"] = true){
-                            echo "<p>Votre message à bien été envoyé ! nous vous répondrons dans les méilleurs délais. </p>";
-                            $_SESSION["msg"] = false; 
+
+<main>
+    <div id="tarifications" class=" py-5">
+
+        <h1 class="fs- fw-semibold text-center mb-5 text-white">Souscrire au logiciel CvSort</h1> 
+
+        <div class="d-flex flex-column justify-content-center align-items-center h-75 text-center bg-white col-6 rounded shadow-lg m-auto py-3">
+            <h3>Prix de l'abbonnement CvSort : </h3>
+            <h2>30 € / an </h2>
+            <h4 class="m-2">Le service CvSort comprenant: </h4>
+            <ul class="lh-lg fst-italic  py-4">
+                <li>Tri des CV par mots-clés</li>
+                <li>Affichage conditionné de contenu</li>
+                <li>Capacité jusqu'a 500 cv</li>
+                <li>Accès pendant 1 an renouvlable</li>
+            </ul>
+            <!-- <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <script src="https://js.stripe.com/v3/"></script>
+                <input type="hidden" name="priceId" value="price_1NUs43Gn0mgpWdiDkByuxHTg" />
+                <button id="checkout-button" class="border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary">Payer >> </button>
+            </form> -->
+
+          
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                        <script src="https://js.stripe.com/v3/"></script>
+                        <input type="hidden" name="priceId" value="price_1NUs43Gn0mgpWdiDkByuxHTg" />
+                        <!-- <button id="checkout-button" class="border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary">Payer &gt;&gt;</button> -->
+                    </form>
+                    <?php
+                        if(!isset($_SESSION['utilisateur_id'])){
+                            echo "<p class='text-danger'>Vous devez d\'abord vous connecter.</p>
+                            <button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary btn btn-outline-secondary'  disabled>Payer &gt;&gt;</button>
+                            ";
+                        }
+                        else if (!isset($_SESSION['inscription_complete']) || !$_SESSION['inscription_complete']){
+                            echo "<p class='text-danger'>Vous devez d\'abord terminer votre</p>
+                            <button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary btn btn-outline-secondary'  disabled>Payer &gt;&gt;</button>";
                         }
                         else{
-                            echo "<p style='color: red'>Erreur lors de l'enregistrement du message :  . $conn->error </p>";
-                            $msg = true;
+                            echo "<button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary'>Payer &gt;&gt;</button>";
                         }
-                        ?>
-                    </form>
-                </div>
-            </div>
+                       
+                    ?>
         </div>
+    
     </div>
-</div>
+</main>
 
-<?php
-// Vérifier si le formulaire est soumis
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Vérifier si les clés existent dans le tableau $_POST
-    if (isset($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['message'])) {
-        // Récupérer les données soumises par le formulaire
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
-        $email = $_POST['email'];
-        $message = $_POST['message'];
+<footer id="footer" class="bg-white">
+			<div class="d-flex flex-column flex-md-row justify-content-around w-90 m-auto  py-5 px-5" >
+				<ul class="list-unstyled">
+					<li><img src="img/logo.png" alt="logo cvSort" class="w-25 mb-3 mb-md-0"></li>
+					<li> <a href="#" class="text-decoration-none text-black"> Mentions légales </a> </li>
+					<li> <a href="#" class="text-decoration-none text-black"> Politique de confidentialité </a> </li>
+					<li> <a href="#" class="text-decoration-none text-black"> Politique des Cookies </a> </li>
+				</ul>
+				
+				<ul class="list-unstyled mt-3 mt-md-0">
+					<li><h5 class="text-primary">CVSORT COMPANY</h5></li>
+					<li class="mb-3">92 Quai de la Loire, 75019 Paris</li>
 
-        // Connexion à la base de données
-        $servername = "localhost"; // Remplacez par le nom de votre serveur
-        $username = "root"; // Remplacez par votre nom d'utilisateur
-        $password = ""; // Remplacez par votre mot de passe
-        $dbname = "parseurdecv"; // Remplacez par le nom de votre base de données
+					<li> <h6 class="text-primary">Adresse email</h6></li>
+					<li class="mb-3">
+						<a href="mailto:contact@cvsort.com" class="text-decoration-none text-black" >contact@cvsort.com
+						</a>
+					</li>
 
-        $conn = new mysqli($servername, $username, $password, $dbname);
+					<li><h6 class="text-primary">Téléphone </h6></li>
+					<li>00 00 00 00 00</li>
+				</ul>
+			</div>
+			
+		</footer>
 
-        // Vérifier la connexion
-        if ($conn->connect_error) {
-            die("Échec de la connexion à la base de données : " . $conn->connect_error);
-        }
 
-        // Préparer et exécuter la requête d'insertion
-        $sql = "INSERT INTO messages (nom, prenom, email, message) VALUES ('$nom', '$prenom', '$email', '$message')";
+<script>
+    var stripe = Stripe('pk_test_51ISsN8Gn0mgpWdiDdJC7WUo8FN04V4fV8YIpFjf4eGrkn1CdMubjUcnJ2Yifn4t4xiIR7ERTvd4Y5MZr95xJJjVB003aCFxdJo');
+    var checkoutButton = document.getElementById('checkout-button');
 
+    checkoutButton.addEventListener('click', function() {
        
-        if ($conn->query($sql) === TRUE) {
-            $_SESSION["msg"] = true;
-           
-            
-            // echo "Message enregistré avec succès.";
-        } else {
-            
-            $_SESSION["msg"] = true;
-            // echo "Erreur lors de l'enregistrement du message : " . $conn->error;
-        }
+        fetch(window.location.href, {
+            method: 'POST'
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(session) {
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+            if (result.error) {
+                // Gérer les erreurs de redirection
+                console.error(result.error);
+            }
+        })
+        .catch(function(error) {
+            console.error('Erreur:', error);
+        });
+    });
 
-        // Fermer la connexion à la base de données
-        $conn->close();
-    } else {
-        echo "Tous les champs du formulaire doivent être remplis.";
-    }
-}
-?>
-
-<br>
-<br>
-<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top bg-white">
-    <p class="col-md-4 mb-0 text-body-secondary">© 2023 Company, Inc</p>
-    <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-    </a>
-    <ul class="nav col-md-4 justify-content-end">
-        <li class="nav-item"><a href="fiche_contact2.php" class="nav-link px-2 text-body-secondary">contact</a></li>
-        <li class="nav-item"><a href="" class="nav-link px-2 text-body-secondary">mentions légales</a></li>            <li class="nav-item"><a href="" class="nav-link px-2 text-body-secondary">politique de confidentialité</a></li>
-    </ul>
-</footer>
+</script>
 
 
 <script src="js/header.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
-</html> -->
+</html>
+
+
+

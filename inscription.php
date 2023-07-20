@@ -33,6 +33,10 @@ if (isset($_POST['register'])) {
         // Insertion des données dans la base de données
         $sql = "INSERT INTO users (email, password) VALUES ('$email', '$password')";
         if ($conn->query($sql) === true) {
+            
+            $_SESSION['utilisateur_id']; 
+            $_SESSION['inscription_complete'];
+
             echo "Inscription réussie.";
             // Redirection vers la page de connexion
             header('Location: pageConnexion.php');

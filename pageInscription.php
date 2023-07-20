@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$mdp = $_SESSION["mdpcorrespondance"];
+$mdp = $_SESSION["mdpcorrespondance"]=true;
 ?>
 <!DOCTYPE html>
 <html>

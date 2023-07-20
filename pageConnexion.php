@@ -1,5 +1,7 @@
 <?php
 session_start();
+// $_SESSION['utilisateur_id']; 
+// $_SESSION['inscription_complete'];
 
 // Vérification des informations d'identification de l'utilisateur
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -11,8 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (true) {
         $_SESSION['email'] = $email;
+        $_SESSION['utilisateur_id'] = true; 
+        $_SESSION['inscription_complete'] = true;
         // Redirigez l'utilisateur vers la page d'accueil ou une autre page appropriée après la connexion réussie
-        header('Location: pageAccueil.php');
+        header('Location: index.php');
         exit();
     } else {
         // Les informations d'identification sont invalides, affichez un message d'erreur ou effectuez une autre action appropriée
@@ -22,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     session_destroy();
-    header('Location: pageAccueil.php');
+    header('Location: index.php');
     exit();
 }
 ?>

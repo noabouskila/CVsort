@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
@@ -25,8 +24,8 @@
 
 		<main id="main">
 			<div class="container1 position-relative bg-img">
-				<div class="d-flex flex-row justify-content-center align-items-center">
-					<div class="col-md-5">
+				<div class="d-flex flex-row justify-content-center align-items-center position-relative">
+					<div class="col-md-5 z-3">
 						<div>
 							<h1 class="text-center text-white fw-semibold mt-5 mx-5 mx-md-0 mt-md-0 mb-5">Triez vos <span class="fw-bold">CV</span> comme vous le désirez !</h1>
 							<div class="text-center d-flex justify-content-evenly">
@@ -40,7 +39,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-5 z-2 d-none d-md-flex "><img src="img/3.svg" class="w-100"></div>
+					<div class="col-md-5 z-2 position-img-3">
+						<img src="img/3.svg" class="w-100">
+					</div>
+
 				</div>
 				
 			</div>
@@ -131,7 +133,7 @@
 							<li>Accès pendant 1 an renouvlable</li>
 						</ul>
 						
-							<a href="souscrire.php"  class="d-flex justify-content-center w-100 bg-primary text-white  fs-5 p-3 text-decoration-none rounded-bottom"> Souscrire >> </a>
+						<a href="souscrire.php"  class="d-flex justify-content-center w-100 bg-primary text-white  fs-5 p-3 text-decoration-none rounded-bottom"> Souscrire >> </a>
 						
 					</div>
 				</div>
@@ -209,6 +211,10 @@
 
 		<script src="js/formulaireContact.js"></script>
 
+		<form method="POST" enctype="multipart/form-data">
+			<input type="file" name="fichier" multiple>
+			<input type="submit" value="Charger CV" name="chargerCV">
+    	</form>
 	</body>
 </html>
 

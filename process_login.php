@@ -25,7 +25,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         // L'utilisateur est authentifié avec succès
         echo "Connexion réussie.";
         // Redirection vers la page d'accueil ou autre page de votre choix
-        header("Location: pageAccueil.php");
+        header("Location: index.php");
         exit();
     } else {
         // Échec de l'authentification

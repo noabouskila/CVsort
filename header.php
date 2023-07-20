@@ -1,10 +1,15 @@
+<?php
+session_start();
+
+$mdp = $_SESSION["mdpcorrespondance"]=true;
+?>
 
 <link rel="stylesheet" href="css/header.css">
 
 
 <header class=" z-3 w-100 d-flex flex-wrap align-items-start justify-content-between p-3  bg-white">
 
-    <a href="pageAccueil.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+    <a href="index.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <img src="img/logo.png" width="90" height="auto"/> 
     </a>
 
@@ -13,10 +18,10 @@
     <img src="img/close-menu.svg" alt="close menu" class="d-lg-none" style="width:40px" id="close-menu"/>
     
     <ul class="nav nav-pills d-lg-flex align-items-center" id="navigation" >
-        <li class="nav-item "><a href="pageAccueil.php" class="nav-link fw-lg-bolder ">Accueil</a></li>
-        <li class="nav-item"><a href="pageAccueil.php#services" class="nav-link fw-lg-bolder ">Nos services</a></li>
-        <li class="nav-item"><a href="pageAccueil.php#tarifications" class="nav-link fw-lg-bolder ">Tarifications</a></li>
-        <li class="nav-item"><a href="pageAccueil.php#contacts" class="nav-link fw-lg-bolder ">Contacts</a></li>
+        <li class="nav-item "><a href="index.php" class="nav-link fw-lg-bolder ">Accueil</a></li>
+        <li class="nav-item"><a href="index.php#services" class="nav-link fw-lg-bolder ">Nos services</a></li>
+        <li class="nav-item"><a href="index.php#tarifications" class="nav-link fw-lg-bolder ">Tarifications</a></li>
+        <li class="nav-item"><a href="index.php#contacts" class="nav-link fw-lg-bolder ">Contacts</a></li>
         <?php if (isset($_SESSION['email'])): ?>
         <li class="nav-item"><a href="#" class="nav-link fw-lg-bolder ">Connecté en tant que <?php echo $_SESSION['email']; ?></a></li>
         <li class="nav-item"><a href="pageConnexion.php?action=logout" class="nav-link fw-lg-bolder ">Déconnexion</a></li>
