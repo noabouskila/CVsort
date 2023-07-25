@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 // $_SESSION['utilisateur_id']; 
 // $_SESSION['inscription_complete'];
 
@@ -100,33 +101,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li>Capacité jusqu'a 500 cv</li>
                 <li>Accès pendant 1 an renouvlable</li>
             </ul>
-            <!-- <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                <script src="https://js.stripe.com/v3/"></script>
-                <input type="hidden" name="priceId" value="price_1NUs43Gn0mgpWdiDkByuxHTg" />
-                <button id="checkout-button" class="border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary">Payer >> </button>
-            </form> -->
-
-          
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                        <script src="https://js.stripe.com/v3/"></script>
-                        <input type="hidden" name="priceId" value="price_1NUs43Gn0mgpWdiDkByuxHTg" />
-                        <!-- <button id="checkout-button" class="border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary">Payer &gt;&gt;</button> -->
-                    </form>
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <script src="https://js.stripe.com/v3/"></script>
+                    <input type="hidden" name="priceId" value="price_1NUs43Gn0mgpWdiDkByuxHTg" />
+                  
                     <?php
                         if(!isset($_SESSION['utilisateur_id'])){
-                            echo "<p class='text-danger'>Vous devez d\'abord vous connecter.</p>
-                            <button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary btn btn-outline-secondary'  disabled>Payer &gt;&gt;</button>
+                            echo "<p class='text-danger'>Vous devez d'abord vous <a class='text-danger' href='pageConnexion.php'>connecter</a> / <a class='text-danger' href='pageInscription.php'>inscrire</a></p>
+                            <button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white btn btn-secondary' disabled>Payer &gt;&gt;</button>
                             ";
                         }
                         else if (!isset($_SESSION['inscription_complete']) || !$_SESSION['inscription_complete']){
                             echo "<p class='text-danger'>Vous devez d\'abord terminer votre</p>
-                            <button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary btn btn-outline-secondary'  disabled>Payer &gt;&gt;</button>";
+                            <button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white btn btn-secondary'  disabled>Payer &gt;&gt;</button>";
                         }
                         else{
                             echo "<button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white bg-primary'>Payer &gt;&gt;</button>";
                         }
                        
                     ?>
+                </form>
         </div>
     
     </div>

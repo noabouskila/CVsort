@@ -1,7 +1,7 @@
 <?php
 session_start();
-// $_SESSION['utilisateur_id']; 
-// $_SESSION['inscription_complete'];
+$_SESSION['utilisateur_id']; 
+$_SESSION['inscription_complete'];
 
 // Vérification des informations d'identification de l'utilisateur
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

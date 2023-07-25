@@ -3,8 +3,6 @@
 <head>
   <title>Thanks for your order!</title>
   <link rel="stylesheet" href="css/header.css">
-
-
 </head>
 <body>
   <header>

@@ -1,6 +1,9 @@
 <?php
-session_start();
-
+// Vérifiez si aucune session n'est déjà active
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+// session_start();
 $mdp = $_SESSION["mdpcorrespondance"]=true;
 ?>
 

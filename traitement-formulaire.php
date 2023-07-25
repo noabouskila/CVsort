@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $sql = "INSERT INTO messages (nom, prenom, email, message) VALUES ('$nom', '$prenom', '$email', '$message')";
 
         if ($conn->query($sql) === TRUE) {
-            $response = array('success' => true, 'message' => 'Message enregistré avec succès.');
+            $response = array('success' => true, 'message' => 'Votre message a bien été envoyé!');
         } else {
             $response = array('success' => false, 'message' => 'Erreur lors de l\'enregistrement du message : ' . $conn->error);
         }

@@ -211,10 +211,6 @@
 
 		<script src="js/formulaireContact.js"></script>
 
-		<form method="POST" enctype="multipart/form-data">
-			<input type="file" name="fichier" multiple>
-			<input type="submit" value="Charger CV" name="chargerCV">
-    	</form>
 	</body>
 </html>
 

@@ -11,6 +11,8 @@ $(document).ready(function() {
                 // Met à jour le message de confirmation sans rafraîchir la page
                 if (response.success) {
                     $('#confirmation-message').text(response.message);
+                    // Réinitialise le formulaire après succès
+                    $('form')[0].reset();
                 } else {
                     alert(response.message);
                 }
