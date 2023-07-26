@@ -4,27 +4,6 @@ session_start();
 // $_SESSION['utilisateur_id']; 
 // $_SESSION['inscription_complete'];
 
-// VERIFIER SI LUTILISATEUR EST CONNECTE
-// if (!isset($_SESSION['utilisateur_id'])) {
-//     $response = [
-//         'status' => 'error',
-//         'message' => 'Vous devez d\'abord vous connecter.'
-//     ];
-//     echo json_encode($response);
-//     exit;
-// }
-
-// if (!isset($_SESSION['inscription_complete']) || !$_SESSION['inscription_complete']) {
-//     $response = [
-//         'status' => 'error',
-//         'message' => 'Vous devez d\'abord terminer votre inscription.'
-//     ];
-//     echo json_encode($response);
-//     exit;
-// }
-
-
-
 
 // STRIPE
 require_once 'vendor/autoload.php';
@@ -107,12 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   
                     <?php
                         if(!isset($_SESSION['utilisateur_id'])){
-                            echo "<p class='text-danger'>Vous devez d'abord vous <a class='text-danger' href='pageConnexion.php'>connecter</a> / <a class='text-danger' href='pageInscription.php'>inscrire</a></p>
+                            echo "<p class='text-danger'>Vous devez d'abord vous <a class='text-danger' href='pageConnexion.php?return_url=souscrire.php'>connecter</a> / <a class='text-danger' href='pageInscription.php'>inscrire</a></p>
                             <button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white btn btn-secondary' disabled>Payer &gt;&gt;</button>
                             ";
                         }
                         else if (!isset($_SESSION['inscription_complete']) || !$_SESSION['inscription_complete']){
-                            echo "<p class='text-danger'>Vous devez d\'abord terminer votre</p>
+                            echo "<p class='text-danger'>Vous devez d\'abord terminer votre inscription.</p>
                             <button id='checkout-button' class='border-0 px-4 py-2 rounded shadow-lg fs-5  text-white btn btn-secondary'  disabled>Payer &gt;&gt;</button>";
                         }
                         else{

@@ -43,9 +43,11 @@ if (isset( $_POST['email'], $_POST['password'], $_POST['confirm_password'])) {
                 "success" => false,
                 "message" => "Votre adresse email est déjà enregistrée dans la base de données."
             );
-        } else {
+        }else{
             // Insertion des données dans la base de données
-            $sql = "INSERT INTO users (email, password) VALUES ('$email', '$password_email')";
+            $hashed_password = password_hash($password_email, PASSWORD_DEFAULT); // Hacher le mot de passe
+            $sql = "INSERT INTO users (email, password) VALUES ('$email', '$hashed_password')";
+
             if ($conn->query($sql) === true) {
                 $_SESSION['mdpcorrespondance'] = true; // Mettre à jour la variable de session
                 $response = array(
