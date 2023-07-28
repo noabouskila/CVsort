@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <h1 class="fs- fw-semibold text-center mb-5 text-white">Souscrire au logiciel CvSort</h1> 
 
-        <div class="d-flex flex-column justify-content-center align-items-center h-75 text-center bg-white col-6 rounded shadow-lg m-auto py-3">
+        <div class="d-flex flex-column justify-content-center align-items-center h-75 text-center bg-white col-7 rounded shadow-lg m-auto p-2 py-4">
             <h3>Prix de l'abbonnement CvSort : </h3>
             <h2>30 € / an </h2>
             <h4 class="m-2">Le service CvSort comprenant: </h4>
@@ -99,9 +99,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                        
                     ?>
+                   
                 </form>
+                <div class="d-flex flex-column flex-md-row mt-4 justify-content-center align-items-center" style="width:50%">
+                    <p>Paiement sécurisé par</p>
+                    <img src="img/logoStripe.svg" alt="logo Stripe" class="ms-md-2" style="width:30px">
+                </div>
         </div>
-    
     </div>
 </main>
 
