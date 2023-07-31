@@ -38,6 +38,14 @@ body {
                     <h1 class="text-center fs-2 text-primary fw-normal">Inscription</h1>
                     </br>
                     <form method="POST" action="inscription.php"> 
+
+                        <label for="nom" class="form-label fs-6">Votre nom</label>
+                        <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" required>
+                        </br>
+
+                        <label for="prenom" class="form-label fs-6">Votre prénom</label>
+                        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prénom" required>
+
                         <label for="exampleFormControlInput1" class="form-label fs-6">Votre adresse mail</label>
                         <input type="email" class="form-control" id="exampleFormControlInput1" name="email" placeholder="name@example.com" required>
                         </br>

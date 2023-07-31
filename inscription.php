@@ -7,10 +7,12 @@ ini_set('display_errors', '1');
 
 
 // Vérification si le formulaire a été soumis
-if (isset( $_POST['email'], $_POST['password'], $_POST['confirm_password'])) {
+if (isset( $_POST['email'], $_POST['password'], $_POST['confirm_password'],  $_POST['nom'], $_POST['prenom'])) {
     $email = $_POST['email'];
     $password_email = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
 
     // Connexion à la base de données (exemple avec MySQLi)
     $servername = "localhost";
@@ -46,10 +48,11 @@ if (isset( $_POST['email'], $_POST['password'], $_POST['confirm_password'])) {
         }else{
             // Insertion des données dans la base de données
             $hashed_password = password_hash($password_email, PASSWORD_DEFAULT); // Hacher le mot de passe
-            $sql = "INSERT INTO users (email, password) VALUES ('$email', '$hashed_password')";
+            $sql = "INSERT INTO users (email, password, nom, prenom) VALUES ('$email', '$hashed_password', '$nom', '$prenom')";
 
             if ($conn->query($sql) === true) {
                 $_SESSION['mdpcorrespondance'] = true; // Mettre à jour la variable de session
+                $_SESSION['prenom'] = $prenom;
                 $response = array(
                     "success" => true,
                     "message" => "Inscription réussie! A présent," . html_entity_decode( "<a href='pageConnexion.php'>Connectez-vous</a>")

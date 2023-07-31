@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Étape 1 : Établir une connexion à la base de données
     $servername = "localhost";
@@ -20,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['email'];
         $password_email = $_POST['password'];
 
-        $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, password , prenom FROM users WHERE email = ?");
         
         if ($stmt) {
             $stmt->bind_param("s", $email);
@@ -31,12 +32,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($result->num_rows === 1) {
                     $row = $result->fetch_assoc();
                     $hashedPassword = $row['password'];
+
+                    // Ajoutez un message de débogage pour vérifier la valeur de $row['prenom']
+                     //echo "Prénom récupéré : " . $row['prenom'];
                 
                     if (password_verify($password_email, $hashedPassword)) {
                         // Authentification réussie
                         $_SESSION['email'] = $email;
                         $_SESSION['utilisateur_id'] = $row['id'];
                         $_SESSION['inscription_complete'] = true;
+                        $_SESSION['prenom'] = $row['prenom']; 
                 
                         // Redirigez l'utilisateur vers la page d'accueil ou une autre page appropriée après la connexion réussie
                         echo json_encode(array("success" => true));

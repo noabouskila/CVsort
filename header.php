@@ -26,7 +26,7 @@ $mdp = $_SESSION["mdpcorrespondance"]=true;
         <li class="nav-item"><a href="index.php#tarifications" class="nav-link fw-lg-bolder ">Tarifications</a></li>
         <li class="nav-item"><a href="index.php#contacts" class="nav-link fw-lg-bolder ">Contacts</a></li>
         <?php if (isset($_SESSION['email'])): ?>
-        <li class="nav-item"><a href="#" class="nav-link fw-lg-bolder ">Connecté en tant que <?php echo $_SESSION['email']; ?></a></li>
+        <li class="nav-item"><a href="#" class="nav-link fw-lg-bolder ">Bonjour <?php echo $_SESSION['prenom']?> !</a></li>
         <li class="nav-item"><a href="logout.php" class="nav-link fw-lg-bolder ">Déconnexion</a></li>
         <?php else: ?>
         <li class="nav-item"><a href="pageConnexion.php" class="nav-link fw-lg-bolder ">Se connecter</a></li>
